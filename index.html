@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>IT SPA</title>
+    <base href="/" target="_self" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="/node_modules/bootstrap/dist/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css"
+    />
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+    <script>
+      $(function () {
+        var dateFormat = "dd-mm-yy",
+          from = $("#from")
+            .datepicker({
+              defaultDate: "+1w",
+              changeMonth: true,
+              numberOfMonths: 2,
+              dateFormat: "dd-mm-yy",
+              minDate: new Date(),
+            })
+            .on("change", function () {
+              to.datepicker("option", "minDate", getDate(this));
+            }),
+          to = $("#to")
+            .datepicker({
+              defaultDate: "+1w",
+              changeMonth: true,
+              numberOfMonths: 2,
+              dateFormat: "dd-mm-yy",
+            })
+            .on("change", function () {
+              from.datepicker("option", "maxDate", getDate(this));
+            });
+
+        function getDate(element) {
+          var date;
+          try {
+            date = $.datepicker.parseDate(dateFormat, element.value);
+          } catch (error) {
+            date = null;
+          }
+
+          return date;
+        }
+      });
+    </script>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+          <img
+            src="src/assets/spa_logo.png"
+            alt=""
+            width="30"
+            height="24"
+          />
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0 text-center">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#" data-link
+                >Strona główna</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/zabiegi" data-link>Zabiegi</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/pokoje" data-link>Pokoje</a>
+            </li>
+          </ul>
+          <div class="text-center">
+            <button
+              type="button"
+              class="btn position-relative"
+              data-bs-toggle="modal"
+              data-bs-target="#cart"
+            >
+              <span
+                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                id="cart-value"
+              >
+              </span>
+              <img src="src/assets/shopping_cart_black_24dp.svg" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <main id="app" class="container pt-4"></main>
+
+    <!-- Modal -->
+    <div class="modal fade" id="cart" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Koszyk</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div id="listaZakupow"></div>
+          </div>
+          <div class="modal-footer">
+            <a class="nav-link" href="/podsumowanie" data-link
+              >Przejdź do podsumowania</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="dodajPokoj" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Dodaj datę dla pokoju</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div id="wybranyPokoj"></div>
+            <label for="from">From</label>
+            <input type="text" id="from" name="from" />
+            <label for="to">to</label>
+            <input type="text" id="to" name="to" />
+          </div>
+          <div class="modal-footer">
+            <button class="btn" type="button" id="dodajPokojDoKoszyka">
+              Dodaj pokój do koszyka
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="text-muted text-center">
+      Copyright © IT SPA. All rights reserved.
+    </p>
+    <script type="module" src="src/it-spa.js"></script>
+    <script type="module" src="src/router/Router.js"></script>
+    <script type="module" src="src/cart/Cart.js"></script>
+    <script
+      type="module"
+      src="node_modules/bootstrap/dist/js/bootstrap.min.js"
+    ></script>
+  </body>
+</html>
